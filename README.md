@@ -93,6 +93,88 @@ The above command returns the following output:
   ...
 ```
 
+The next line of code searches for a filed with a specific value, i.e., "AllieLovesR5_1D" in `user_name`:
 
+```
+db.users.find({user_name: "AllieLovesR5_1D"}).pretty()
+```
 
+The results are shown below:
 
+```
+{
+	"_id" : ObjectId("578ffa8f7eb9513f4f55a937"),
+	"user_name" : "AllieLovesR5_1D",
+	"retweet_count" : 0,
+	"tweet_followers_count" : 4601,
+	"source" : "<a href=\"http://twitter.com/download/iphone\" rel=\"nofollow\">Twitter for iPhone</a>",
+	"coordinates" : null,
+	"tweet_mentioned_count" : 3,
+	"tweet_ID" : "755891632759681024",
+	"tweet_text" : "RT @NiallOfficial: @Louis_Tomlinson @socceraid when I retired from playing because of my knee . I went and did my uefa A badges in Dublin",
+	"user" : {
+		"CreatedAt" : ISODate("2012-10-19T00:47:23Z"),
+		"FavouritesCount" : 15758,
+		"FollowersCount" : 4601,
+		"FriendsCount" : 5059,
+		"UserId" : 890030330,
+		"Location" : null
+	}
+}
+```
+
+The code below selects only one field from the tweet above, the tweet_ID:
+
+```sql
+db.users.find({user_name: "AllieLovesR5_1D"}, {tweet_ID: 1})
+```
+
+which results in the following output:
+
+```
+{ "_id" : ObjectId("578ffa8f7eb9513f4f55a937"), "tweet_ID" : "755891632759681024" }
+```
+
+The next line of code removes the primary key, `_id`, from the results:
+
+```sql
+db.users.find({user_name: "AllieLovesR5_1D"}, {tweet_ID: 1, _id: 0})
+```
+
+resulting in the following output:
+
+```
+{ "tweet_ID" : "755891632759681024" }
+```
+
+Next, we perform a regular expression search for the word "football", and count the results:
+
+```sql
+db.users.find({tweet_text: /football/}).count()
+```
+
+This search results in 2,868 documents.
+
+The next line outputs the count of all tweets with `tweet_mentioned_count` greater than 10:
+
+```
+db.users.find({tweet_mentioned_count: {$gt: 2}}).count()
+```
+
+This search results in 271 documents.
+
+Next, we would like to count the number of tweets with tweet_mentioned_count is greater than tweet_followers_count:
+
+```
+db.users.find({$where : "this.tweet_mentioned_count > this.tweet_followers_count"}).count()
+```
+
+This search results in 18 documents.
+
+Finally, we would like to further restrict the search by counting documents with `tweet_text` ending with the word "football" and `tweet_metnioned_count` greater than 2:
+
+```sql
+db.users.find({$and : [ {tweet_text : /football$/}, {tweet_mentioned_count: {$gt: 2}}]}).count()
+```
+
+This search results in 3 documents.
