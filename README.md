@@ -8,7 +8,7 @@ This project is based on assignments from Big Data Integration and Processing by
 
 MongoDB was started by executing the following commands:
 
-```r
+```java
 ./mongodb/bin/mongod --dbpath db
 ./mongodb/bin/mongo
 ```
@@ -39,7 +39,7 @@ The Twitter data are stored in the `users` collection.
 
 The following command outputs the number of documents in the `users` collection:
 
-```r
+```java
 db.users.count()
 ```
 
@@ -47,7 +47,7 @@ The output shows that there are 11,188 records in the collection.
 
 Next we will output one of the documents: 
 
-```r
+```java
 db.users.findOne()
 ```
 
@@ -79,7 +79,7 @@ The document contains several fields, including nested fields under "user".
 
 We can use `distinct` command to output distinct values for a specific field:
 
-```r
+```java
 db.users.distinct("user_name")
 ```
 
@@ -95,7 +95,7 @@ The above command returns the following output:
 
 The next line of code searches for a filed with a specific value, i.e., "AllieLovesR5_1D" in `user_name`:
 
-```r
+```java
 db.users.find({user_name: "AllieLovesR5_1D"}).pretty()
 ```
 
@@ -125,7 +125,7 @@ The results are shown below:
 
 The code below selects only one field from the tweet above, the tweet_ID:
 
-```r
+```java
 db.users.find({user_name: "AllieLovesR5_1D"}, {tweet_ID: 1})
 ```
 
@@ -137,7 +137,7 @@ which results in the following output:
 
 The next line of code removes the primary key, `_id`, from the results:
 
-```r
+```java
 db.users.find({user_name: "AllieLovesR5_1D"}, {tweet_ID: 1, _id: 0})
 ```
 
@@ -149,7 +149,7 @@ resulting in the following output:
 
 Next, we perform a regular expression search for the word "football", and count the results:
 
-```r
+```java
 db.users.find({tweet_text: /football/}).count()
 ```
 
@@ -157,7 +157,7 @@ This search results in 2,868 documents.
 
 The next line outputs the count of all tweets with `tweet_mentioned_count` greater than 10:
 
-```r
+```java
 db.users.find({tweet_mentioned_count: {$gt: 2}}).count()
 ```
 
@@ -165,7 +165,7 @@ This search results in 271 documents.
 
 Next, we would like to count the number of tweets with tweet_mentioned_count is greater than tweet_followers_count:
 
-```r
+```java
 db.users.find({$where : "this.tweet_mentioned_count > this.tweet_followers_count"}).count()
 ```
 
