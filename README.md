@@ -8,7 +8,7 @@ This project is based on assignments from Big Data Integration and Processing by
 
 MongoDB was started by executing the following commands:
 
-```ShellSession
+```Shell
 ./mongodb/bin/mongod --dbpath db
 ./mongodb/bin/mongo
 ```
