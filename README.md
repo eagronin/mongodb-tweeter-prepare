@@ -173,7 +173,7 @@ This search results in 18 documents.
 
 Finally, we would like to further restrict the search by counting documents with `tweet_text` ending with the word "football" and `tweet_metnioned_count` greater than 2:
 
-```sql
+```python
 db.users.find({$and : [ {tweet_text : /football$/}, {tweet_mentioned_count: {$gt: 2}}]}).count()
 ```
 
