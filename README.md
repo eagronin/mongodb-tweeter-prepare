@@ -1,6 +1,4 @@
-# Data Exploration
-
-## Overview
+# Overview
 
 This section explores a Twitter dataset by querying MongoDB.  The queries were performed in the Cloudera environment.
 
@@ -13,10 +11,10 @@ MongoDB was started by executing the following commands:
 ./mongodb/bin/mongo
 ```
 
-where dbpath db in the first line specifies that the directory db should be used for the MongoDB directory for datafiles.
+where dbpath db in the first line specifies the MongoDB directory for data files.
 The second line is executed from a different terminal window.  It runs mongodb shell so that we can query the server.
 
-## Exploration of Twitter Data
+# Exploration of Twitter Data
 
 The command `show dbs` shows the databases:
 
@@ -27,7 +25,7 @@ sample      0.004GB
 test        0.000GB
 ```
 
-We will switch to the `sample` database that contains Twitter JSON data by executing `use sample`
+We will switch to the `sample` database that contains Twitter JSON data by executing `use sample`.
 Then we will show collections by executing `show collections`:
 
 ```
@@ -135,13 +133,13 @@ which results in the following output:
 { "_id" : ObjectId("578ffa8f7eb9513f4f55a937"), "tweet_ID" : "755891632759681024" }
 ```
 
-The next line of code removes the primary key, `_id`, from the results:
+The next line of code removes the primary key `_id` from the results:
 
 ```java
 db.users.find({user_name: "AllieLovesR5_1D"}, {tweet_ID: 1, _id: 0})
 ```
 
-resulting in the following output:
+and shows the following output:
 
 ```
 { "tweet_ID" : "755891632759681024" }
@@ -163,7 +161,7 @@ db.users.find({tweet_mentioned_count: {$gt: 2}}).count()
 
 This search results in 271 documents.
 
-Next, we would like to count the number of tweets with tweet_mentioned_count is greater than tweet_followers_count:
+Next, we would like to count the number of tweets with tweet_mentioned_count greater than tweet_followers_count:
 
 ```java
 db.users.find({$where : "this.tweet_mentioned_count > this.tweet_followers_count"}).count()
@@ -171,7 +169,7 @@ db.users.find({$where : "this.tweet_mentioned_count > this.tweet_followers_count
 
 This search results in 18 documents.
 
-Finally, we would like to further restrict the search by counting documents with `tweet_text` ending with the word "football" and `tweet_metnioned_count` greater than 2:
+Finally, we would like to count documents with `tweet_text` ending with the word "football" and `tweet_metnioned_count` greater than 2:
 
 ```java
 db.users.find({$and : [ {tweet_text : /football$/}, {tweet_mentioned_count: {$gt: 2}}]}).count()
