@@ -43,7 +43,7 @@ db.users.count()
 
 The output shows that there are 11,188 records in the collection.
 
-Next we will output one of the documents: 
+Next, we will output one of the documents: 
 
 ```java
 db.users.findOne()
